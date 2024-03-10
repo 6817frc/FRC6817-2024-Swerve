@@ -13,7 +13,6 @@ import edu.wpi.first.math.MathUtil;
 //import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 //import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-import edu.wpi.first.wpilibj.DoubleSolenoid;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -23,7 +22,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 //import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
+// import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
@@ -50,12 +49,11 @@ import frc.robot.interfaces.IRoller;*/
 import frc.robot.subsystems.SwerveDrivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Climber;
-import frc.robot.commands.climber.Elevator;
-import frc.robot.commands.climber.ElevatorUp;
+// import frc.robot.commands.climber.Elevator;
+// import frc.robot.commands.climber.ElevatorUp;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.commands.groups.*;
 //import frc.robot.commands.gamepad.*;
-import frc.robot.auton.*;
 import frc.robot.auton.common.*;
 
 
@@ -153,7 +151,7 @@ public class RobotContainer {
 
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
 	private final Climber climber = new Climber();
-	private final Intake intake = new Intake();
+	public final Intake intake = new Intake();
 
 
 
@@ -282,14 +280,17 @@ public class RobotContainer {
 		// 	.whileTrue(new DrivetrainSetXFormation(drivetrain));	
 
 		joyMain.button(2)
-			.onTrue(Commands.runOnce(() -> intake.grabNote()));
+			// .onTrue(Commands.runOnce(() -> intake.grabNote()));
+			.onTrue(Commands.runOnce(() -> intake.moveUp()));
 			
 		joyMain.button(3)
-			.onTrue(Commands.runOnce(() -> intake.dropNote()));
+			// .onTrue(Commands.runOnce(() -> intake.dropNote()));
+			.onTrue(Commands.runOnce(() -> intake.moveDown()));
 			// (new MoveInLShapeInReverse(drivetrain, this, 3)); Original button 3
 			
 		joyMain.button(4)
-			.onTrue(Commands.runOnce(() -> intake.stopIntake()));
+			// .onTrue(Commands.runOnce(() -> intake.stopIntake()));
+			.onTrue(Commands.runOnce(() -> intake.stopArm()));
 			// .onTrue(new MoveInGammaShape(drivetrain, this, 3));
 
 		joyMain.button(5)

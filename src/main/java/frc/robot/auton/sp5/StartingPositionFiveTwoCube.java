@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.RobotContainer;
 import frc.robot.auton.AutonConstants;
-import frc.robot.auton.common.*;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.subsystems.*;
 

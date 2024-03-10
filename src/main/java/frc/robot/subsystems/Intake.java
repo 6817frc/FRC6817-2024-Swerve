@@ -6,7 +6,8 @@ package frc.robot.subsystems;
 
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkBase.IdleMode;
-import com.revrobotics.CANSparkMaxLowLevel.MotorType;
+import com.revrobotics.CANSparkLowLevel.MotorType;
+import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -14,12 +15,15 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
   public final CANSparkMax m_intakeWheels;
 	public final CANSparkMax m_intakeArm;
+  public final SparkPIDController armPID;
 
   public Intake() {
     m_intakeWheels = new CANSparkMax(9, MotorType.kBrushless);
     m_intakeArm = new CANSparkMax(10, MotorType.kBrushed);
     m_intakeWheels.setIdleMode(IdleMode.kBrake);
     m_intakeArm.setIdleMode(IdleMode.kBrake);
+    armPID = m_intakeArm.getPIDController();
+    armPID.setOutputRange(-0.25, 0.25);
     }
 
   public void grabNote(){
@@ -28,10 +32,11 @@ public class Intake extends SubsystemBase {
 
   public void moveUp(){
     m_intakeArm.set(0.25);
+    // armPID.setReference(0, CANSparkMax.ControlType.kPosition);
   }
 
   public void moveDown(){
-    m_intakeArm.set(-0.25);
+    m_intakeArm.set(-0.25); //position is 3
   }
 
   public void dropNote(){
