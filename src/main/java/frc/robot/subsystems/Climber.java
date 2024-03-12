@@ -35,8 +35,13 @@ public class Climber extends SubsystemBase {
   }
 
   public void moveDown() {
-    m_climbFront.set(-0.4);
-    m_climbBack.set(-0.4);
+    m_climbFront.set(-1);
+    m_climbBack.set(-1);
+  }
+
+  public void slowMoveDown() {
+    m_climbFront.set(-0.25);
+    m_climbBack.set(-0.25);
   }
 
   public void stopClimb() {

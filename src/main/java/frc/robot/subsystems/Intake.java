@@ -32,15 +32,16 @@ public class Intake extends SubsystemBase {
 
   public void moveUp(){
     m_intakeArm.set(0.25);
-    // armPID.setReference(0, CANSparkMax.ControlType.kPosition);
+    // armPID.setReference(0, CANSparkMax.ControlType.kPosition); //0.5 is shooting height
   }
 
   public void moveDown(){
-    m_intakeArm.set(-0.25); //position is 3
+    m_intakeArm.set(-0.25);
+    // armPID.setReference(3, CANSparkMax.ControlType.kPosition);
   }
 
   public void dropNote(){
-    m_intakeWheels.set(-0.75);
+    m_intakeWheels.set(-0.5);
   }
 
   public void stopIntake(){
@@ -49,6 +50,12 @@ public class Intake extends SubsystemBase {
 
   public void stopArm(){
     m_intakeArm.set(0);
+  }
+
+  public void stopEverything(){
+    m_intakeWheels.set(0);
+    m_intakeArm.set(0);
+
   }
 
   @Override
