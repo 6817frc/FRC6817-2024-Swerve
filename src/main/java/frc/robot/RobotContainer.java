@@ -163,7 +163,7 @@ public class RobotContainer {
 
 	/*CommandJoystick joyLeft = new CommandJoystick(Ports.USB.LEFT_JOYSTICK);
 	CommandJoystick joyRight = new CommandJoystick(Ports.USB.RIGHT_JOYSTICK);*/
-	CommandJoystick joyMain = new CommandJoystick(Ports.USB.MAIN_JOYSTICK);
+	CommandXboxController joyMain = new CommandXboxController(Ports.USB.MAIN_JOYSTICK);
 	//CommandXboxController driverGamepad = new CommandXboxController(Ports.USB.DRIVER_GAMEPAD);
 	CommandXboxController copilotGamepad = new CommandXboxController(Ports.USB.COPILOT_GAMEPAD);
 	
@@ -250,9 +250,9 @@ public class RobotContainer {
 			// We are also inverting RightX because we want a positive value when we pull to the left (CCW is positive in mathematics).
 			new RunCommand(
 				() -> drivetrain.drive(
-					-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getZ(), JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getLeftY(), JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getLeftX(), JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getRightX(), JOYSTICK_AXIS_THRESHOLD),
 					true, true),
 				drivetrain));
 	}
@@ -472,7 +472,7 @@ public class RobotContainer {
 		return drivetrain;
 	}
 
-	public Joystick getMainJoystick()
+	public XboxController getMainJoystick()
 	{
 		return joyMain.getHID();
 	}
