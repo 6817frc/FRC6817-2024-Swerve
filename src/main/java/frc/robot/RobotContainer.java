@@ -268,58 +268,58 @@ public class RobotContainer {
 	 */
 	private void configureButtonBindings() {
 
-		// driver (joystick)
+		/*------------------  old functions used with controller:	------------------*/
 
-		joyMain.povUp()
-			.onTrue(new DrivetrainZeroHeading(drivetrain));	
+		// copilotGamepad.back().onTrue(new DrivetrainAndGyroReset(drivetrain));
 
-		joyMain.povDown()
-			.onTrue(new DrivetrainOppositeHeading(drivetrain));	
+		// joyMain.povDown()
+		// 	.onTrue(new DrivetrainOppositeHeading(drivetrain));	
 
 		// joyMain.button(2)
 		// 	.whileTrue(new DrivetrainSetXFormation(drivetrain));	
 
-		joyMain.button(2)
-			.onTrue(Commands.runOnce(() -> intake.stopEverything()));
-			
-		joyMain.button(3)
-			.onTrue(Commands.runOnce(() -> intake.dropNote()));
-			// (new MoveInLShapeInReverse(drivetrain, this, 3)); Original button 3
-			
-		joyMain.button(4)
-			.onTrue(Commands.runOnce(() -> intake.moveDown()));
-			// .onTrue(new MoveInGammaShape(drivetrain, this, 3));
+		// (new MoveInLShapeInReverse(drivetrain, this, 3)); Original button 3
 
-		joyMain.button(5)
-			.onTrue(Commands.runOnce(() -> intake.grabNote()));
-			// .onTrue(new MoveForward(drivetrain, this, 3));
-			//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, -90));
-			//.onTrue(new MoveInUShapeInReverse(drivetrain, this, 1));
+		// .onTrue(new MoveInGammaShape(drivetrain, this, 3));
 
-		joyMain.button(6)
-			.onTrue(Commands.runOnce(() -> intake.moveUp()));
-			// .onTrue(new MoveInReverse(drivetrain, this, 3));
-			//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, 90));
+		// .onTrue(new MoveForward(drivetrain, this, 3));
+		//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, -90));
+		//.onTrue(new MoveInUShapeInReverse(drivetrain, this, 1));
 
+		// .onTrue(new MoveInReverse(drivetrain, this, 3));
+		//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, 90));
 
-		joyMain.button(11)
-			.onTrue(Commands.runOnce(() -> climber.moveDown()));
-			//.onTrue(new DrivetrainZeroHeading(drivetrain));
-		
-		joyMain.button(12)
-			.onTrue(Commands.runOnce(() -> climber.moveUp()));
-			//.whileTrue(new DrivetrainSetXFormation(drivetrain));
-			
-		joyMain.button(9)
-			.onTrue(Commands.runOnce(() -> climber.stopClimb()));
+		//.whileTrue(new DrivetrainSetXFormation(drivetrain));
 
-		joyMain.button(10)
-			.onTrue(Commands.runOnce(() -> climber.slowMoveDown()));
+		/*------------------ JoyMain ------------------*/
 
-		// copilot (gamepad)
-		
-		copilotGamepad.back()
-			.onTrue(new DrivetrainAndGyroReset(drivetrain));
+		joyMain.povUp().onTrue(Commands.runOnce(() -> climber.moveUp()));
+
+		joyMain.povDown().onTrue(Commands.runOnce(() -> climber.moveDown()));
+
+		joyMain.button(1).onTrue(Commands.runOnce(() -> climber.slowMoveDown()));
+
+		joyMain.button(2).onTrue(Commands.runOnce(() -> climber.stopClimb()));
+
+		joyMain.button(4).onTrue(new DrivetrainZeroHeading(drivetrain));	
+
+		/*------------------ Copilot ------------------*/
+
+		copilotGamepad.povUp().onTrue(Commands.runOnce(() -> intake.moveUptoPos()));
+
+		copilotGamepad.povDown().onTrue(Commands.runOnce(() -> intake.moveDowntoPos()));
+
+		copilotGamepad.back().onTrue(Commands.runOnce(() -> intake.stopEverything()));
+
+		copilotGamepad.button(5).onTrue(Commands.runOnce(() -> intake.moveUp()));
+
+		copilotGamepad.button(6).onTrue(Commands.runOnce(() -> intake.moveDown()));
+
+		copilotGamepad.button(3).onTrue(Commands.runOnce(() -> intake.grabNote()));
+
+		copilotGamepad.button(2).onTrue(Commands.runOnce(() -> intake.dropNote()));
+
+		copilotGamepad.button(4).onTrue(Commands.runOnce(() -> intake.resetArmEncoder()));
 	}
 
 	/**

@@ -176,7 +176,13 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putString("Auton option", m_robotContainer.getAutonOptionChooser().getSelected());
 
 		// SmartDashboard.putNumber("SetPoint", rotations);
-    	SmartDashboard.putNumber("ProcessVariable", m_robotContainer.intake.m_intakeArm.getEncoder(SparkRelativeEncoder.Type.kQuadrature, 2048).getPosition());
+    	SmartDashboard.putNumber("EncoderPos", m_robotContainer.intake.armEncoder.getPosition());
+    	SmartDashboard.putNumber("RealEncoderPos", m_robotContainer.intake.realMotorPos());
+		SmartDashboard.putNumber("P", m_robotContainer.intake.armPID.getP());
+		SmartDashboard.putNumber("I", m_robotContainer.intake.armPID.getI());
+		SmartDashboard.putNumber("D", m_robotContainer.intake.armPID.getD());
+
+
 	} 
 
 	@Override
