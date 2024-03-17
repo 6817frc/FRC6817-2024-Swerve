@@ -181,6 +181,7 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("P", m_robotContainer.intake.armPID.getP());
 		SmartDashboard.putNumber("I", m_robotContainer.intake.armPID.getI());
 		SmartDashboard.putNumber("D", m_robotContainer.intake.armPID.getD());
+		SmartDashboard.putNumber("LeadClimbMotor", m_robotContainer.climber.ClimbEncoder.getPosition());
 
 
 	} 

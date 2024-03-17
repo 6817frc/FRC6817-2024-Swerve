@@ -30,8 +30,8 @@ public class Intake extends SubsystemBase {
     m_intakeWheels.setIdleMode(IdleMode.kBrake);
     m_intakeArm.setIdleMode(IdleMode.kBrake);
     armPID = m_intakeArm.getPIDController();
-    armPID.setOutputRange(-0.25, 0.25);
-    double value = SmartDashboard.getNumber("PValue", 0.05);
+    armPID.setOutputRange(-0.5, 0.25);
+    double value = SmartDashboard.getNumber("PValue", 3);
     SmartDashboard.putNumber("PValue", value);
     armEncoder = m_intakeArm.getEncoder(SparkRelativeEncoder.Type.kQuadrature, 2048);
     encoderOffset = 0;
@@ -47,11 +47,11 @@ public class Intake extends SubsystemBase {
   }
 
   public void grabNote(){
-    m_intakeWheels.set(0.25);
+    m_intakeWheels.set(0.5);
   }
 
   public void moveUp(){
-    m_intakeArm.set(-0.25);
+    m_intakeArm.set(-0.4);
   }
 
   public void moveUptoPos(){

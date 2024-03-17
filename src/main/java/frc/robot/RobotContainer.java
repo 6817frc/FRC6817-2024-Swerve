@@ -150,10 +150,9 @@ public class RobotContainer {
 	// motorized devices
 
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
-	private final Climber climber = new Climber();
+	public final Climber climber = new Climber();
 	public final Intake intake = new Intake();
-
-
+	public double speedMult = 1;
 
 	// misc
 
@@ -250,9 +249,9 @@ public class RobotContainer {
 			// We are also inverting RightX because we want a positive value when we pull to the left (CCW is positive in mathematics).
 			new RunCommand(
 				() -> drivetrain.drive(
-					-MathUtil.applyDeadband(joyMain.getLeftY(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getLeftX(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getRightX(), JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getLeftY() * speedMult, JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getLeftX() * speedMult, JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getRightX() * speedMult, JOYSTICK_AXIS_THRESHOLD),
 					true, true),
 				drivetrain));
 	}
@@ -293,6 +292,10 @@ public class RobotContainer {
 
 		/*------------------ JoyMain ------------------*/
 
+		joyMain.button(5).onTrue(Commands.runOnce(() -> setLowSpeedMult()));
+
+		joyMain.button(5).onFalse(Commands.runOnce(() -> setHighSpeedMult()));
+
 		joyMain.povUp().onTrue(Commands.runOnce(() -> climber.moveUp()));
 
 		joyMain.povDown().onTrue(Commands.runOnce(() -> climber.moveDown()));
@@ -320,6 +323,14 @@ public class RobotContainer {
 		copilotGamepad.button(2).onTrue(Commands.runOnce(() -> intake.dropNote()));
 
 		copilotGamepad.button(4).onTrue(Commands.runOnce(() -> intake.resetArmEncoder()));
+	}
+
+	private void setLowSpeedMult(){
+		speedMult = 0.25;
+	}
+
+	private void setHighSpeedMult(){
+		speedMult = 1;
 	}
 
 	/**
