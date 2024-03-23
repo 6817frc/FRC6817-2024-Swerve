@@ -20,8 +20,8 @@ public class Intake extends SubsystemBase {
 	public final CANSparkMax m_intakeArm;
   public final SparkPIDController armPID;
   public final RelativeEncoder armEncoder;
-  public double encoderOffset;
-  public double realMotorPos;
+  private double encoderOffset;
+  private double realMotorPos;
 
   public Intake() {
     m_intakeWheels = new CANSparkMax(9, MotorType.kBrushless);
@@ -55,9 +55,9 @@ public class Intake extends SubsystemBase {
   }
 
   public void moveUptoPos(){
-    double value = SmartDashboard.getNumber("PValue", 0.05);
+    double value = SmartDashboard.getNumber("PValue", 3);
     armPID.setP(value);
-    armPID.setReference(0.5 + encoderOffset, CANSparkMax.ControlType.kPosition); //0.5 is shooting height
+    armPID.setReference(0 + encoderOffset, CANSparkMax.ControlType.kPosition);
   }
 
   public void moveDown(){
@@ -65,11 +65,13 @@ public class Intake extends SubsystemBase {
   }
 
   public void moveDowntoPos(){
+    double value = SmartDashboard.getNumber("PValue", 3);
+    armPID.setP(value);
     armPID.setReference(3 + encoderOffset, CANSparkMax.ControlType.kPosition);
   }
 
   public void dropNote(){
-    m_intakeWheels.set(-0.5);
+    m_intakeWheels.set(-0.75);
   }
 
   public void stopIntake(){

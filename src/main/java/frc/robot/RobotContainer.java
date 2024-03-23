@@ -74,6 +74,8 @@ public class RobotContainer {
 	public static final int RT = 3;
 	public static final int RX = 4;
 	public static final int RY = 5;
+	private boolean slowMode;
+	private boolean fieldRelative = true;
 
 	// choosers (for auton)
 	
@@ -241,6 +243,7 @@ public class RobotContainer {
 
 		// Configure default commands
 
+		// intake.setDefaultCommand(new RunCommand(() -> intake.moveDowntoPos()));
 		drivetrain.setDefaultCommand(
 			// The left stick controls translation of the robot.
 			// Turning is controlled by the X axis of the right stick.
@@ -252,7 +255,7 @@ public class RobotContainer {
 					-MathUtil.applyDeadband(joyMain.getLeftY() * speedMult, JOYSTICK_AXIS_THRESHOLD),
 					-MathUtil.applyDeadband(joyMain.getLeftX() * speedMult, JOYSTICK_AXIS_THRESHOLD),
 					-MathUtil.applyDeadband(joyMain.getRightX() * speedMult, JOYSTICK_AXIS_THRESHOLD),
-					true, true),
+					fieldRelative, true),
 				drivetrain));
 	}
 
@@ -265,6 +268,21 @@ public class RobotContainer {
 	 * passing it to a
 	 * {@link JoystickButton}.
 	 */
+
+	public void toggleSpeed(){
+		slowMode = !slowMode;
+
+		if (slowMode == true) {
+			speedMult = 0.25;
+		} else {
+			speedMult = 1;
+		} 
+	}
+
+	public void toggleRelative(){
+		fieldRelative = !fieldRelative;
+	}
+
 	private void configureButtonBindings() {
 
 		/*------------------  old functions used with controller:	------------------*/
@@ -292,15 +310,17 @@ public class RobotContainer {
 
 		/*------------------ JoyMain ------------------*/
 
-		joyMain.button(5).onTrue(Commands.runOnce(() -> setLowSpeedMult()));
+		joyMain.button(6).onTrue(Commands.runOnce(() -> toggleSpeed()));
 
-		joyMain.button(5).onFalse(Commands.runOnce(() -> setHighSpeedMult()));
+		joyMain.start().onTrue(Commands.runOnce(() -> toggleRelative()));
 
-		joyMain.povUp().onTrue(Commands.runOnce(() -> climber.moveUp()));
+		joyMain.button(5).onTrue(Commands.runOnce(() -> climber.moveUp()));
+
+		joyMain.povUp().onTrue(Commands.runOnce(() -> climber.moveUptoPos()));
 
 		joyMain.povDown().onTrue(Commands.runOnce(() -> climber.moveDown()));
 
-		joyMain.button(1).onTrue(Commands.runOnce(() -> climber.slowMoveDown()));
+		joyMain.button(1).onTrue(Commands.runOnce(() -> climber.resetClimbEncoder()));
 
 		joyMain.button(2).onTrue(Commands.runOnce(() -> climber.stopClimb()));
 
@@ -323,14 +343,6 @@ public class RobotContainer {
 		copilotGamepad.button(2).onTrue(Commands.runOnce(() -> intake.dropNote()));
 
 		copilotGamepad.button(4).onTrue(Commands.runOnce(() -> intake.resetArmEncoder()));
-	}
-
-	private void setLowSpeedMult(){
-		speedMult = 0.25;
-	}
-
-	private void setHighSpeedMult(){
-		speedMult = 1;
 	}
 
 	/**
@@ -389,15 +401,17 @@ public class RobotContainer {
 				//break;
 
 			case AUTON_TEST_HARDCODED_MOVE_1:
-				return new CompletelyLeaveCommunity(drivetrain, this);
+				return new PathPlannerAuto("New Path");	
+				// return new CompletelyLeaveCommunity(drivetrain, this);
 				//break;
 
 			case AUTON_TEST_HARDCODED_MOVE_2:
-				return new MoveInNonBumpKTurn(drivetrain, this);
+				return new PathPlannerAuto("straight");	
+				// return new MoveInNonBumpKTurn(drivetrain, this);
 				//break;
 
 			case AUTON_DO_NOTHING:
-				return new PathPlannerAuto("New Path");	
+				return new PathPlannerAuto("Do Nothing");	
 				// return null;
 				//break;
 				
