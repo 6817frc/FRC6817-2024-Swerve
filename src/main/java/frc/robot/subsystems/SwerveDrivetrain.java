@@ -17,9 +17,14 @@ import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.util.WPIUtilJNI;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import com.kauailabs.navx.frc.AHRS;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
+import com.pathplanner.lib.util.PIDConstants;
+import com.pathplanner.lib.util.ReplanningConfig;
 
 import frc.robot.Constants.DrivetrainConstants;
 import frc.utils.SwerveUtils;
@@ -30,10 +35,10 @@ import frc.robot.Ports;
  */
 public class SwerveDrivetrain extends SubsystemBase {
 
-	public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = -1.653; // adjust as needed so that virtual (turn) position of wheel is zero when straight
-	public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = -1.650; // adjust as needed so that virtual (turn) position of wheel is zero when straight
-	public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = -0.987; // adjust as needed so that virtual (turn) position of wheel is zero when straight
-	public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = +1.021; // adjust as needed so that virtual (turn) position of wheel is zero when straight
+	public static final double FRONT_LEFT_VIRTUAL_OFFSET_RADIANS = 0.0716; // adjust as needed so that virtual (turn) position of wheel is zero when straight
+	public static final double FRONT_RIGHT_VIRTUAL_OFFSET_RADIANS = 1.8732; // adjust as needed so that virtual (turn) position of wheel is zero when straight
+	public static final double REAR_LEFT_VIRTUAL_OFFSET_RADIANS = 1.0402; // adjust as needed so that virtual (turn) position of wheel is zero when straight
+	public static final double REAR_RIGHT_VIRTUAL_OFFSET_RADIANS = 4.3381; // adjust as needed so that virtual (turn) position of wheel is zero when straight
 
 	public static final int GYRO_ORIENTATION = -1; // might be able to merge with kGyroReversed
 
@@ -137,6 +142,32 @@ public class SwerveDrivetrain extends SubsystemBase {
 		
 		turnPidController.enableContinuousInput(-180, 180); // because -180 degrees is the same as 180 degrees (needs input range to be defined first)
 		turnPidController.setTolerance(DEGREE_THRESHOLD); // n degree error tolerated
+
+		AutoBuilder.configureHolonomic(
+            this::getPose, // Robot pose supplier
+            this::resetOdometry, // Method to reset odometry (will be called if your auto has a starting pose)
+            this::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
+            this::setModuleStates, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
+            new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
+                    new PIDConstants(5.0, 0.0, 0.0), // Translation PID constants
+                    new PIDConstants(5.0, 0.0, 0.0), // Rotation PID constants
+                    4.5, // Max module speed, in m/s
+                    0.4, // Drive base radius in meters. Distance from robot center to furthest module.
+                    new ReplanningConfig() // Default path replanning config. See the API for the options here
+            ),
+            () -> {
+              // Boolean supplier that controls when the path will be mirrored for the red alliance
+              // This will flip the path being followed to the red side of the field.
+              // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+
+              var alliance = DriverStation.getAlliance();
+              if (alliance.isPresent()) {
+                return alliance.get() == DriverStation.Alliance.Red;
+              }
+              return false;
+            },
+            this // Reference to this subsystem to set requirements
+    );
 	}
 
 	@Override
@@ -179,6 +210,16 @@ public class SwerveDrivetrain extends SubsystemBase {
 			},
 			pose);
 	}
+
+	/**
+   * Gets the current robot-relative velocity (x, y and omega) of the robot
+   *
+   * @return A ChassisSpeeds object of the current robot-relative velocity
+   */
+  public ChassisSpeeds getRobotVelocity()
+  {
+    return DrivetrainConstants.DRIVE_KINEMATICS.toChassisSpeeds(getModuleStates());
+  }
 
 	/**
 	 * Method to drive the robot using joystick info.
@@ -262,6 +303,25 @@ public class SwerveDrivetrain extends SubsystemBase {
 		m_frontRight.setDesiredState(swerveModuleStates[1]);
 		m_rearLeft.setDesiredState(swerveModuleStates[2]);
 		m_rearRight.setDesiredState(swerveModuleStates[3]);
+	}
+
+	private SwerveModuleState[] getModuleStates() {
+		SwerveModuleState[] states = new SwerveModuleState[4];
+    	states[0] = m_frontLeft.getDesiredState();
+		states[1] = m_frontRight.getDesiredState();
+		states[2] = m_rearLeft.getDesiredState();
+		states[3] = m_rearRight.getDesiredState();
+		return states;
+	}
+
+	private SwerveModuleState[] setModuleStates(ChassisSpeeds targetSpeeds) {
+		SwerveModuleState[] states = DrivetrainConstants.DRIVE_KINEMATICS.toSwerveModuleStates(targetSpeeds);
+    	m_frontLeft.setDesiredState(states[0]);
+		m_frontRight.setDesiredState(states[1]);
+		m_rearLeft.setDesiredState(states[2]);
+		m_rearRight.setDesiredState(states[3]);
+
+		return states;
 	}
 
 	/**

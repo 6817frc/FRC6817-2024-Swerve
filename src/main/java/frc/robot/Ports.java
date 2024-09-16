@@ -37,10 +37,10 @@ public class Ports {
 			// 2023 Off-season
 			// SPARK MAX Absolute encoders
 			
-			public static final int FRONT_RIGHT_TURNING_ABSOLUTE_ENCODER = 0;
-			public static final int REAR_RIGHT_TURNING_ABSOLUTE_ENCODER = 1;
+			public static final int FRONT_RIGHT_TURNING_ABSOLUTE_ENCODER = 1;
+			public static final int REAR_RIGHT_TURNING_ABSOLUTE_ENCODER = 3;
 			public static final int REAR_LEFT_TURNING_ABSOLUTE_ENCODER = 2;
-			public static final int FRONT_LEFT_TURNING_ABSOLUTE_ENCODER = 3;			
+			public static final int FRONT_LEFT_TURNING_ABSOLUTE_ENCODER = 0;			
 		}
 		
 		/**
@@ -142,22 +142,27 @@ public class Ports {
 			public static final int PDP = 0;	
 
 			// SPARK MAX CAN IDs
-			public static final int FRONT_LEFT_DRIVING = 8;
-			public static final int REAR_LEFT_DRIVING = 6;
-			public static final int FRONT_RIGHT_DRIVING = 2;
-			public static final int REAR_RIGHT_DRIVING = 4;
+			public static final int FRONT_LEFT_DRIVING = 1;
+			public static final int REAR_LEFT_DRIVING = 5;
+			public static final int FRONT_RIGHT_DRIVING = 3;
+			public static final int REAR_RIGHT_DRIVING = 7;
 
-			public static final int FRONT_LEFT_TURNING = 7;
-			public static final int REAR_LEFT_TURNING = 5;
-			public static final int FRONT_RIGHT_TURNING = 1;
-			public static final int REAR_RIGHT_TURNING = 3;
+			public static final int FRONT_LEFT_TURNING = 2;
+			public static final int REAR_LEFT_TURNING = 6;
+			public static final int FRONT_RIGHT_TURNING = 4;
+			public static final int REAR_RIGHT_TURNING = 8;
+
+			public static final int Intake = 9;
+			public static final int Arm = 10;
+			public static final int ClimbFront = 11;
+			public static final int ClimbBack = 12;
 
 			// TALON SRX CAN IDS
-			public static final int ELEVATOR_MASTER = 9;
-			public static final int ELEVATOR_FOLLOWER = 10;
-			public static final int DRAWER = 11;
-			public static final int NECK = 12;
-			public static final int ROLLER = 13;
+			// public static final int ELEVATOR_MASTER = 9;
+			// public static final int ELEVATOR_FOLLOWER = 10;
+			// public static final int DRAWER = 11;
+			// public static final int NECK = 12;
+			// public static final int ROLLER = 13;
 		}
 		
 		/**
@@ -231,16 +236,16 @@ public class Ports {
 		/**
 		 * PWM ports
 		 */
-		public static class PWM {
-			public static final int LED_STRIP = 9;
-		}
+		// public static class PWM {
+		// 	public static final int LED_STRIP = 9;
+		// }
 
 		/**
 		 * USB cameras
 		 */
-		public static class UsbCamera {
-			public static final int PRIMARY_CAMERA = 0;
-			public static final int BOTTOM_CAMERA = 1;
-			public static final int TOP_CAMERA = 2;
-		}
+		// public static class UsbCamera {
+		// 	public static final int PRIMARY_CAMERA = 0;
+		// 	public static final int BOTTOM_CAMERA = 1;
+		// 	public static final int TOP_CAMERA = 2;
+		// }
 }

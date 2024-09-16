@@ -13,24 +13,23 @@ import frc.robot.RobotContainer;
 import frc.robot.auton.AutonConstants;
 import frc.robot.auton.common.*;
 import frc.robot.commands.drivetrain.*;
-import frc.robot.commands.neck.*;
 import frc.robot.subsystems.*;
 
 // GP = game piece
 // Can be used to place one cube or one cone and either starting position one or two
 public class StartingPositionTwoOneCubeAndLeaveCommunityAndPickupCube extends SequentialCommandGroup {
 
-    public StartingPositionTwoOneCubeAndLeaveCommunityAndPickupCube(SwerveDrivetrain drivetrain, RobotContainer container, Elevator elevator, Drawer drawer, Roller roller, Neck neck, Mouth mouth){
+    public StartingPositionTwoOneCubeAndLeaveCommunityAndPickupCube(SwerveDrivetrain drivetrain, RobotContainer container){
 
         addCommands(
 
             // Drop preloaded cube on top node
 
-            new DropTopCube(container, elevator, drawer, roller),
+            // new DropTopCube(container, elevator, drawer, roller),
 
             // Shrink
 
-            new Shrink(container, elevator, drawer),
+            // new Shrink(container, elevator, drawer),
 
             // Move backward to first part of kturn
 
@@ -38,13 +37,13 @@ public class StartingPositionTwoOneCubeAndLeaveCommunityAndPickupCube extends Se
 
 			// Move forward to second part of kturn
 
-			new DrivetrainSwerveRelative(drivetrain, container, createSecondPartOfNonBumpKturnTrajectory(container)),
+			new DrivetrainSwerveRelative(drivetrain, container, createSecondPartOfNonBumpKturnTrajectory(container))
 
             // Grab mechanism open
 
-			new NeckMoveDownWithStallDetection(neck),
+			// new NeckMoveDownWithStallDetection(neck),
 
-			new PickupCube(drivetrain, container, neck, roller),
+			// new PickupCube(drivetrain, container, neck, roller),
 
             /*new NeckMoveDownWithStallDetection(neck),
 
@@ -54,7 +53,7 @@ public class StartingPositionTwoOneCubeAndLeaveCommunityAndPickupCube extends Se
 
            // container.createSwerveControllerCommand(createAreaBeforeCubePickupTrajectory(container)),
 
-            new NeckSafeMoveUpWithStallDetection(neck, mouth, container.getCopilotGamepad())
+            // new NeckSafeMoveUpWithStallDetection(neck, mouth, container.getCopilotGamepad())
             
         ); 
   

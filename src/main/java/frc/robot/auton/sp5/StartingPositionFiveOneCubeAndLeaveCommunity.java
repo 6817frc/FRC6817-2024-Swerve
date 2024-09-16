@@ -11,7 +11,6 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 import frc.robot.RobotContainer;
 import frc.robot.auton.AutonConstants;
-import frc.robot.auton.common.*;
 import frc.robot.commands.drivetrain.*;
 import frc.robot.subsystems.*;
 
@@ -19,17 +18,17 @@ import frc.robot.subsystems.*;
 // Can be used to place one cube or one cone and either starting position one or two
 public class StartingPositionFiveOneCubeAndLeaveCommunity extends SequentialCommandGroup {
 
-    public StartingPositionFiveOneCubeAndLeaveCommunity(SwerveDrivetrain drivetrain, RobotContainer container, Elevator elevator, Drawer drawer, Roller roller, Neck neck, Mouth mouth){
+    public StartingPositionFiveOneCubeAndLeaveCommunity(SwerveDrivetrain drivetrain, RobotContainer container){
 
         addCommands(
 
             // Drop preloaded cube on top node
 
-            new DropTopCube(container, elevator, drawer, roller),
+            // new DropTopCube(container, elevator, drawer, roller),
 
             // Shrink
 
-            new Shrink(container, elevator, drawer),
+            // new Shrink(container, elevator, drawer),
 
             // Move backward to leave community
 

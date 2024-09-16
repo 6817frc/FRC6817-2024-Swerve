@@ -8,6 +8,9 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+
+import com.revrobotics.SparkRelativeEncoder;
+
 import edu.wpi.first.net.PortForwarder;
 
 /**
@@ -114,27 +117,27 @@ public class Robot extends TimedRobot {
 
 	public void updateToSmartDash()
 	{
-		SmartDashboard.putNumber("FrontLeftDrivingEncoderPosition", m_robotContainer.getDrivetrain().getFrontLeftModule().getDrivingEncoder().getPosition());
-		SmartDashboard.putNumber("FrontLeftTurningEncoderPosition", m_robotContainer.getDrivetrain().getFrontLeftModule().getTurningEncoder().getPosition());
+		// SmartDashboard.putNumber("FrontLeftDrivingEncoderPosition", m_robotContainer.getDrivetrain().getFrontLeftModule().getDrivingEncoder().getPosition());
+		// SmartDashboard.putNumber("FrontLeftTurningEncoderPosition", m_robotContainer.getDrivetrain().getFrontLeftModule().getTurningEncoder().getPosition());
 		
-		SmartDashboard.putNumber("RearLeftDrivingEncoderPosition", m_robotContainer.getDrivetrain().getRearLeftModule().getDrivingEncoder().getPosition());
-		SmartDashboard.putNumber("RearLeftTurningEncoderPosition", m_robotContainer.getDrivetrain().getRearLeftModule().getTurningEncoder().getPosition());
+		// SmartDashboard.putNumber("RearLeftDrivingEncoderPosition", m_robotContainer.getDrivetrain().getRearLeftModule().getDrivingEncoder().getPosition());
+		// SmartDashboard.putNumber("RearLeftTurningEncoderPosition", m_robotContainer.getDrivetrain().getRearLeftModule().getTurningEncoder().getPosition());
 		
-		SmartDashboard.putNumber("FrontRightDrivingEncoderPosition", m_robotContainer.getDrivetrain().getFrontRightModule().getDrivingEncoder().getPosition());
-		SmartDashboard.putNumber("FrontRightTurningEncoderPosition", m_robotContainer.getDrivetrain().getFrontRightModule().getTurningEncoder().getPosition());
+		// SmartDashboard.putNumber("FrontRightDrivingEncoderPosition", m_robotContainer.getDrivetrain().getFrontRightModule().getDrivingEncoder().getPosition());
+		// SmartDashboard.putNumber("FrontRightTurningEncoderPosition", m_robotContainer.getDrivetrain().getFrontRightModule().getTurningEncoder().getPosition());
 		
-		SmartDashboard.putNumber("RearRightDrivingEncoderPosition", m_robotContainer.getDrivetrain().getRearRightModule().getDrivingEncoder().getPosition());
-		SmartDashboard.putNumber("RearRightTurningEncoderPosition", m_robotContainer.getDrivetrain().getRearRightModule().getTurningEncoder().getPosition());
+		// SmartDashboard.putNumber("RearRightDrivingEncoderPosition", m_robotContainer.getDrivetrain().getRearRightModule().getDrivingEncoder().getPosition());
+		// SmartDashboard.putNumber("RearRightTurningEncoderPosition", m_robotContainer.getDrivetrain().getRearRightModule().getTurningEncoder().getPosition());
 	
 		SmartDashboard.putNumber("FrontLeftTurningAbsoluteEncoderPosition", m_robotContainer.getDrivetrain().getFrontLeftModule().getTurningAbsoluteEncoder().getPosition());
 		SmartDashboard.putNumber("RearLeftTurningAbsoluteEncoderPosition", m_robotContainer.getDrivetrain().getRearLeftModule().getTurningAbsoluteEncoder().getPosition());
 		SmartDashboard.putNumber("FrontRightTurningAbsoluteEncoderPosition", m_robotContainer.getDrivetrain().getFrontRightModule().getTurningAbsoluteEncoder().getPosition());
 		SmartDashboard.putNumber("RearRightTurningAbsoluteEncoderPosition", m_robotContainer.getDrivetrain().getRearRightModule().getTurningAbsoluteEncoder().getPosition());
 
-		SmartDashboard.putNumber("FrontLeftTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getFrontLeftModule().getTurningAbsoluteEncoder().getVirtualPosition());
-		SmartDashboard.putNumber("RearLeftTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getRearLeftModule().getTurningAbsoluteEncoder().getVirtualPosition());
-		SmartDashboard.putNumber("FrontRightTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getFrontRightModule().getTurningAbsoluteEncoder().getVirtualPosition());
-		SmartDashboard.putNumber("RearRightTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getRearRightModule().getTurningAbsoluteEncoder().getVirtualPosition());
+		// SmartDashboard.putNumber("FrontLeftTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getFrontLeftModule().getTurningAbsoluteEncoder().getVirtualPosition());
+		// SmartDashboard.putNumber("RearLeftTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getRearLeftModule().getTurningAbsoluteEncoder().getVirtualPosition());
+		// SmartDashboard.putNumber("FrontRightTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getFrontRightModule().getTurningAbsoluteEncoder().getVirtualPosition());
+		// SmartDashboard.putNumber("RearRightTurningAbsoluteEncoderVirtualPosition", m_robotContainer.getDrivetrain().getRearRightModule().getTurningAbsoluteEncoder().getVirtualPosition());
 	
 		SmartDashboard.putNumber("FrontLeftTurningDesiredState", m_robotContainer.getDrivetrain().getFrontLeftModule().getDesiredState().angle.getRadians());
 		SmartDashboard.putNumber("RearLeftTurningDesiredState", m_robotContainer.getDrivetrain().getRearLeftModule().getDesiredState().angle.getRadians());
@@ -142,8 +145,8 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("RearRightTurningDesiredState", m_robotContainer.getDrivetrain().getRearRightModule().getDesiredState().angle.getRadians());
 
 		/* Display 6-axis Processed Angle Data                                      */
-		SmartDashboard.putBoolean(  "IMU_Connected",        m_robotContainer.getDrivetrain().getImu().isConnected());
-		SmartDashboard.putBoolean(  "IMU_IsCalibrating",    m_robotContainer.getDrivetrain().getImu().isCalibrating());
+		// SmartDashboard.putBoolean(  "IMU_Connected",        m_robotContainer.getDrivetrain().getImu().isConnected());
+		// SmartDashboard.putBoolean(  "IMU_IsCalibrating",    m_robotContainer.getDrivetrain().getImu().isCalibrating());
 		SmartDashboard.putNumber(   "IMU_Yaw",              m_robotContainer.getDrivetrain().getImu().getYaw());
 		SmartDashboard.putNumber(   "IMU_Pitch",            m_robotContainer.getDrivetrain().getImu().getPitch());
 		SmartDashboard.putNumber(   "IMU_Roll",             m_robotContainer.getDrivetrain().getImu().getRoll());
@@ -152,68 +155,38 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber(   "Heading",             m_robotContainer.getDrivetrain().getHeading());
 
 
-		SmartDashboard.putNumber("AccelZ", m_robotContainer.getAccelerometer().getAccelZ());
-		SmartDashboard.putNumber("FilteredAccelZ", m_robotContainer.getAccelerometer().getFilteredAccelZ());
-		SmartDashboard.putNumber("Tilt", m_robotContainer.getAccelerometer().getTilt());
-		SmartDashboard.putNumber("FilteredTilt", m_robotContainer.getAccelerometer().getFilteredTilt());
-		SmartDashboard.putNumber("AccurateTilt", m_robotContainer.getAccelerometer().getAccurateTilt());
-		SmartDashboard.putBoolean("isFlat", m_robotContainer.getAccelerometer().isFlat());
-		SmartDashboard.putBoolean("isSuperFlat", m_robotContainer.getAccelerometer().isSuperFlat());
-		SmartDashboard.putNumber("AccuratePitch", m_robotContainer.getAccelerometer().getAccuratePitch());
-		SmartDashboard.putNumber("AccurateRoll", m_robotContainer.getAccelerometer().getAccurateRoll());
-		SmartDashboard.putNumber("FilteredAccurateRoll", m_robotContainer.getAccelerometer().getFilteredAccurateRoll());
-
-
-		SmartDashboard.putBoolean("Elevator Forward Limit Switch", m_robotContainer.getElevator().getForwardLimitSwitchState());
-		SmartDashboard.putBoolean("Elevator Reverse Limit Switch", m_robotContainer.getElevator().getReverseLimitSwitchState());
-		SmartDashboard.putNumber("Elevator Enc Position", m_robotContainer.getElevator().getEncoderPosition());
-		SmartDashboard.putBoolean("Elevator IsMoving?", m_robotContainer.getElevator().isMoving());
-		SmartDashboard.putNumber("Elevator Target", m_robotContainer.getElevator().getTarget());
-		SmartDashboard.putBoolean("Elevator isStalled?", m_robotContainer.getElevator().isStalled());
-		SmartDashboard.putBoolean("Elevator isDown", m_robotContainer.getElevator().isDown());
-		SmartDashboard.putBoolean("Elevator isMidway", m_robotContainer.getElevator().isMidway());
-		SmartDashboard.putBoolean("Elevator isUp", m_robotContainer.getElevator().isUp());
-		SmartDashboard.putBoolean("Elevator isDangerous", m_robotContainer.getElevator().isDangerous());
-
-		SmartDashboard.putBoolean("Drawer Forward Limit Switch", m_robotContainer.getDrawer().getForwardLimitSwitchState());
-		SmartDashboard.putBoolean("Drawer Reverse Limit Switch", m_robotContainer.getDrawer().getReverseLimitSwitchState());
-		SmartDashboard.putNumber("Drawer Enc Position", m_robotContainer.getDrawer().getEncoderPosition());
-		SmartDashboard.putBoolean("Drawer IsMoving?", m_robotContainer.getDrawer().isMoving());
-		SmartDashboard.putNumber("Drawer Target", m_robotContainer.getDrawer().getTarget());
-		SmartDashboard.putBoolean("Drawer isStalled?", m_robotContainer.getDrawer().isStalled());
-		SmartDashboard.putBoolean("Drawer isRetracted", m_robotContainer.getDrawer().isRetracted());
-		SmartDashboard.putBoolean("Drawer isMidway", m_robotContainer.getDrawer().isMidway());
-		SmartDashboard.putBoolean("Drawer isExtended", m_robotContainer.getDrawer().isExtended());
-		SmartDashboard.putBoolean("Drawer isDangerous", m_robotContainer.getDrawer().isDangerous());
-
-		SmartDashboard.putBoolean("Neck Reverse Limit Switch", m_robotContainer.getNeck().getReverseLimitSwitchState());
-		SmartDashboard.putBoolean("Neck Forward Limit Switch", m_robotContainer.getNeck().getForwardLimitSwitchState());
-		SmartDashboard.putNumber("Neck Position", m_robotContainer.getNeck().getPosition());
-		SmartDashboard.putNumber("Neck Enc Position", m_robotContainer.getNeck().getEncoderPosition());
-		SmartDashboard.putBoolean("Neck IsMoving?", m_robotContainer.getNeck().isMoving());
-		SmartDashboard.putNumber("Neck Target", m_robotContainer.getNeck().getTarget());
-		SmartDashboard.putBoolean("Neck isStalled?", m_robotContainer.getNeck().isStalled());
-		SmartDashboard.putBoolean("Neck isDown", m_robotContainer.getNeck().isDown());
-		SmartDashboard.putBoolean("Neck isMidway", m_robotContainer.getNeck().isMidway());
-		SmartDashboard.putBoolean("Neck isUp", m_robotContainer.getNeck().isUp());
-		SmartDashboard.putBoolean("Neck isDangerous", m_robotContainer.getNeck().isDangerous());
-
-		SmartDashboard.putBoolean("Roller IsRolling?", m_robotContainer.getRoller().isRolling());
-		SmartDashboard.putBoolean("Roller IsReleasing?", m_robotContainer.getRoller().isReleasing());
-
-		SmartDashboard.putString("Mouth Position", m_robotContainer.getMouth().getPosition().toString());
-		SmartDashboard.putBoolean("Mouth isDangerous", m_robotContainer.getMouth().isDangerous());
-
+		// SmartDashboard.putNumber("AccelZ", m_robotContainer.getAccelerometer().getAccelZ());
+		// SmartDashboard.putNumber("FilteredAccelZ", m_robotContainer.getAccelerometer().getFilteredAccelZ());
+		// SmartDashboard.putNumber("Tilt", m_robotContainer.getAccelerometer().getTilt());
+		// SmartDashboard.putNumber("FilteredTilt", m_robotContainer.getAccelerometer().getFilteredTilt());
+		// SmartDashboard.putNumber("AccurateTilt", m_robotContainer.getAccelerometer().getAccurateTilt());
+		// SmartDashboard.putBoolean("isFlat", m_robotContainer.getAccelerometer().isFlat());
+		// SmartDashboard.putBoolean("isSuperFlat", m_robotContainer.getAccelerometer().isSuperFlat());
+		// SmartDashboard.putNumber("AccuratePitch", m_robotContainer.getAccelerometer().getAccuratePitch());
+		// SmartDashboard.putNumber("AccurateRoll", m_robotContainer.getAccelerometer().getAccurateRoll());
+		// SmartDashboard.putNumber("FilteredAccurateRoll", m_robotContainer.getAccelerometer().getFilteredAccurateRoll());
 
 		SmartDashboard.putString("Auton selected", m_robotContainer.getAutonChooser().getSelected());	
-		SmartDashboard.putString("Game piece", m_robotContainer.getGamePieceChooser().getSelected());
+		// SmartDashboard.putString("Game piece", m_robotContainer.getGamePieceChooser().getSelected());
 		SmartDashboard.putString("Start position", m_robotContainer.getStartPositionChooser().getSelected());
-		SmartDashboard.putString("Main target", m_robotContainer.getMainTargetChooser().getSelected());
-		SmartDashboard.putString("Camera option", m_robotContainer.getCameraOptionChooser().getSelected());
-		SmartDashboard.putString("Sonar option", m_robotContainer.getSonarOptionChooser().getSelected());
-		SmartDashboard.putString("Release chosen", m_robotContainer.getReleaseChooser().getSelected());
+		// SmartDashboard.putString("Main target", m_robotContainer.getMainTargetChooser().getSelected());
+		// SmartDashboard.putString("Camera option", m_robotContainer.getCameraOptionChooser().getSelected());
+		// SmartDashboard.putString("Sonar option", m_robotContainer.getSonarOptionChooser().getSelected());
+		// SmartDashboard.putString("Release chosen", m_robotContainer.getReleaseChooser().getSelected());
 		SmartDashboard.putString("Auton option", m_robotContainer.getAutonOptionChooser().getSelected());
-	}
+
+		// SmartDashboard.putNumber("SetPoint", rotations);
+    	SmartDashboard.putNumber("ArmEncoderPos", m_robotContainer.intake.armEncoder.getPosition());
+    	SmartDashboard.putNumber("RealEncoderPosArm", m_robotContainer.intake.realMotorPos());
+		SmartDashboard.putNumber("ClimbEncoderPos", m_robotContainer.climber.frontEncoder.getPosition());
+    	SmartDashboard.putNumber("RealEncoderPosClimb", m_robotContainer.climber.realMotorPos());
+		SmartDashboard.putNumber("P", m_robotContainer.intake.armPID.getP());
+		SmartDashboard.putNumber("I", m_robotContainer.intake.armPID.getI());
+		SmartDashboard.putNumber("D", m_robotContainer.intake.armPID.getD());
+		// SmartDashboard.putNumber("LeadClimbMotor", m_robotContainer.climber.ClimbEncoder.getPosition());
+
+
+	} 
 
 	@Override
 	public void testInit() {

@@ -19,17 +19,17 @@ import frc.robot.subsystems.*;
 // Can be used to place one cube or one cone and either starting position one or two
 public class StartingPositionTwoOneCubeAndLeaveCommunity extends SequentialCommandGroup {
 
-    public StartingPositionTwoOneCubeAndLeaveCommunity(SwerveDrivetrain drivetrain, RobotContainer container, Elevator elevator, Drawer drawer, Roller roller, Neck neck, Mouth mouth){
+    public StartingPositionTwoOneCubeAndLeaveCommunity(SwerveDrivetrain drivetrain, RobotContainer container){
 
         addCommands(
 
             // Drop preloaded cube on top node
 
-            new DropTopCube(container, elevator, drawer, roller),
+            // new DropTopCube(container, elevator, drawer, roller),
 
             // Shrink
 
-            new Shrink(container, elevator, drawer),
+            // new Shrink(container, elevator, drawer),
 
             // Move backward to leave community
 

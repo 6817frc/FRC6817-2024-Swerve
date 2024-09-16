@@ -13,7 +13,6 @@ import edu.wpi.first.math.MathUtil;
 //import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
 //import edu.wpi.first.math.trajectory.TrajectoryGenerator;
-
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
@@ -21,15 +20,16 @@ import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 //import edu.wpi.first.wpilibj.XboxController.Button;
 //import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 //import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController; 
+import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.JoystickButton;
+// import edu.wpi.first.wpilibj2.command.button.Trigger;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.RunCommand;
 //import edu.wpi.first.wpilibj2.command.InstantCommand;
 //import edu.wpi.first.wpilibj2.command.SwerveControllerCommand;
 
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonSRX;
-import com.ctre.phoenix.motorcontrol.can.WPI_TalonFX;
-import com.ctre.phoenix.motorcontrol.can.WPI_VictorSPX;
+import com.pathplanner.lib.commands.PathPlannerAuto;
 
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -47,24 +47,13 @@ import frc.robot.interfaces.INeck;
 import frc.robot.interfaces.IRoller;*/
 
 import frc.robot.subsystems.SwerveDrivetrain;
-import frc.robot.subsystems.Elevator;
-import frc.robot.subsystems.Drawer;
-import frc.robot.subsystems.Neck;
-import frc.robot.subsystems.Roller;
-import frc.robot.subsystems.Compressor;
-import frc.robot.subsystems.Mouth;
-import frc.robot.subsystems.Indicator;
-
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Climber;
+// import frc.robot.commands.climber.Elevator;
+// import frc.robot.commands.climber.ElevatorUp;
 import frc.robot.commands.drivetrain.*;
-import frc.robot.commands.elevator.*;
-import frc.robot.commands.drawer.*;
-import frc.robot.commands.neck.*;
-import frc.robot.commands.roller.*;
-import frc.robot.commands.mouth.*;
-import frc.robot.commands.indicator.*;
 import frc.robot.commands.groups.*;
 //import frc.robot.commands.gamepad.*;
-import frc.robot.auton.*;
 import frc.robot.auton.common.*;
 
 
@@ -85,6 +74,8 @@ public class RobotContainer {
 	public static final int RT = 3;
 	public static final int RX = 4;
 	public static final int RY = 5;
+	private boolean slowMode;
+	private boolean fieldRelative = true;
 
 	// choosers (for auton)
 	
@@ -161,42 +152,19 @@ public class RobotContainer {
 	// motorized devices
 
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
-
-	private final WPI_TalonSRX drawer_master = new WPI_TalonSRX(Ports.CAN.DRAWER);
-
-	private final /*I*/Drawer drawer = new Drawer(drawer_master);
-
-	private final WPI_TalonSRX elevator_master = new WPI_TalonSRX(Ports.CAN.ELEVATOR_MASTER);
-
-	private final WPI_VictorSPX elevator_follower = new WPI_VictorSPX(Ports.CAN.ELEVATOR_FOLLOWER);
-
-	private final /*I*/Elevator elevator = new Elevator(elevator_master, elevator_follower);
-
-	private final WPI_TalonFX neck_master = new WPI_TalonFX(Ports.CAN.NECK);
-	
-	private final /*I*/Neck neck = new Neck(neck_master);
-
-	private final WPI_TalonSRX roller_master = new WPI_TalonSRX(Ports.CAN.ROLLER);
-	
-	private final /*I*/Roller roller = new Roller(roller_master);
-	
-	// pneumatic devices
-
-	private final Compressor compressor = new Compressor();
-
-	private final Mouth mouth = new Mouth();
+	public final Climber climber = new Climber();
+	public final Intake intake = new Intake();
+	public double speedMult = 1;
 
 	// misc
 
 	private final Field2d field = new Field2d(); //  a representation of the field
 
-	private final Indicator indicator = new Indicator(null);
-
 	// The driver's and copilot's joystick(s) and controller(s)
 
 	/*CommandJoystick joyLeft = new CommandJoystick(Ports.USB.LEFT_JOYSTICK);
 	CommandJoystick joyRight = new CommandJoystick(Ports.USB.RIGHT_JOYSTICK);*/
-	CommandJoystick joyMain = new CommandJoystick(Ports.USB.MAIN_JOYSTICK);
+	CommandXboxController joyMain = new CommandXboxController(Ports.USB.MAIN_JOYSTICK);
 	//CommandXboxController driverGamepad = new CommandXboxController(Ports.USB.DRIVER_GAMEPAD);
 	CommandXboxController copilotGamepad = new CommandXboxController(Ports.USB.COPILOT_GAMEPAD);
 	
@@ -275,6 +243,7 @@ public class RobotContainer {
 
 		// Configure default commands
 
+		// intake.setDefaultCommand(new RunCommand(() -> intake.moveDowntoPos()));
 		drivetrain.setDefaultCommand(
 			// The left stick controls translation of the robot.
 			// Turning is controlled by the X axis of the right stick.
@@ -283,18 +252,11 @@ public class RobotContainer {
 			// We are also inverting RightX because we want a positive value when we pull to the left (CCW is positive in mathematics).
 			new RunCommand(
 				() -> drivetrain.drive(
-					-MathUtil.applyDeadband(joyMain.getY(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getX(), JOYSTICK_AXIS_THRESHOLD),
-					-MathUtil.applyDeadband(joyMain.getZ(), JOYSTICK_AXIS_THRESHOLD),
-					true, true),
+					-MathUtil.applyDeadband(joyMain.getLeftY() * speedMult, JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getLeftX() * speedMult, JOYSTICK_AXIS_THRESHOLD),
+					-MathUtil.applyDeadband(joyMain.getRightX() * speedMult, JOYSTICK_AXIS_THRESHOLD),
+					fieldRelative, true),
 				drivetrain));
-		
-		roller.setDefaultCommand(new RollerStopForever(roller)); // we stop by default
-
-		compressor.checkCompressor(); //we compress in the background
-
-		indicator.setDefaultCommand(new IndicatorScrollRainbow(indicator)); // temp
-
 	}
 
 	/**
@@ -306,136 +268,81 @@ public class RobotContainer {
 	 * passing it to a
 	 * {@link JoystickButton}.
 	 */
+
+	public void toggleSpeed(){
+		slowMode = !slowMode;
+
+		if (slowMode == true) {
+			speedMult = 0.25;
+		} else {
+			speedMult = 1;
+		} 
+	}
+
+	public void toggleRelative(){
+		fieldRelative = !fieldRelative;
+	}
+
 	private void configureButtonBindings() {
 
-		// driver (joystick)
+		/*------------------  old functions used with controller:	------------------*/
 
-		joyMain.povUp()
-			.onTrue(new DrivetrainZeroHeading(drivetrain));	
+		// copilotGamepad.back().onTrue(new DrivetrainAndGyroReset(drivetrain));
 
-		joyMain.povDown()
-			.onTrue(new DrivetrainOppositeHeading(drivetrain));	
+		// joyMain.povDown()
+		// 	.onTrue(new DrivetrainOppositeHeading(drivetrain));	
 
+		// joyMain.button(2)
+		// 	.whileTrue(new DrivetrainSetXFormation(drivetrain));	
 
-		joyMain.button(2)
-			.whileTrue(new DrivetrainSetXFormation(drivetrain));	
-			
-		joyMain.button(3)
-			.onTrue(new MoveInLShapeInReverse(drivetrain, this, 3));
-			
-		joyMain.button(4)
-			.onTrue(new MoveInGammaShape(drivetrain, this, 3));
+		// (new MoveInLShapeInReverse(drivetrain, this, 3)); Original button 3
 
-		joyMain.button(5)
-			.onTrue(new MoveForward(drivetrain, this, 3));
-			//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, -90));
-			//.onTrue(new MoveInUShapeInReverse(drivetrain, this, 1));
+		// .onTrue(new MoveInGammaShape(drivetrain, this, 3));
 
-		joyMain.button(6)
-			.onTrue(new MoveInReverse(drivetrain, this, 3));
-			//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, 90));
+		// .onTrue(new MoveForward(drivetrain, this, 3));
+		//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, -90));
+		//.onTrue(new MoveInUShapeInReverse(drivetrain, this, 1));
 
+		// .onTrue(new MoveInReverse(drivetrain, this, 3));
+		//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, 90));
 
-		joyMain.button(7)
-			.whileTrue(new RollerJoystickControl(roller, drivetrain, getMainJoystick()));
-		
-		joyMain.button(8)
-			.whileTrue(new NeckJoystickControl(neck, drivetrain, getMainJoystick()));
-		
-		joyMain.button(9)
-			.whileTrue(new DrawerJoystickControl(drawer, drivetrain, getMainJoystick()));
-		
-		joyMain.button(10)
-			.whileTrue(new ElevatorJoystickControl(elevator, drivetrain, getMainJoystick()));
+		//.whileTrue(new DrivetrainSetXFormation(drivetrain));
 
-		//joyMain.button(11)
-			//.onTrue(new DrivetrainZeroHeading(drivetrain));
-		
-		//joyMain.button(12)
-			//.whileTrue(new DrivetrainSetXFormation(drivetrain));
-			
-				
-		// copilot (gamepad)
-		
-		copilotGamepad.a()
-			.whileTrue(new RollerRelease(roller));
-		
-		copilotGamepad.b()
-			.whileTrue(new RollerRoll(roller));
+		/*------------------ JoyMain ------------------*/
 
-		copilotGamepad.x()
-			.onTrue(new MouthSafeClose(mouth, neck, getCopilotGamepad()));
+		joyMain.button(6).onTrue(Commands.runOnce(() -> toggleSpeed()));
 
-		copilotGamepad.y()
-			.onTrue(new MouthOpen(mouth));
+		joyMain.start().onTrue(Commands.runOnce(() -> toggleRelative()));
 
-		copilotGamepad.back()
-			.onTrue(new DrivetrainAndGyroReset(drivetrain));
+		joyMain.button(5).onTrue(Commands.runOnce(() -> climber.moveUp()));
 
-		copilotGamepad.start()
-			.onTrue(new AlmostEverythingStop(elevator, drawer, neck, roller));
+		joyMain.povUp().onTrue(Commands.runOnce(() -> climber.moveUptoPos()));
 
+		joyMain.povDown().onTrue(Commands.runOnce(() -> climber.moveDown()));
 
-		copilotGamepad.leftTrigger()
-			.onTrue(new DrawerRetractWithStallDetection(drawer));
+		joyMain.button(1).onTrue(Commands.runOnce(() -> climber.resetClimbEncoder()));
 
-		copilotGamepad.rightTrigger()
-			.onTrue(new DrawerExtendWithStallDetection(drawer));
+		joyMain.button(2).onTrue(Commands.runOnce(() -> climber.stopClimb()));
 
+		joyMain.button(4).onTrue(new DrivetrainZeroHeading(drivetrain));	
 
-		copilotGamepad.povDown()
-			.onTrue(new ElevatorMoveDownWithStallDetection(elevator));
+		/*------------------ Copilot ------------------*/
 
-		copilotGamepad.povLeft()
-			.onTrue(new ElevatorMoveMidwayWithStallDetection(elevator));
+		copilotGamepad.povUp().onTrue(Commands.runOnce(() -> intake.moveUptoPos()));
 
-		copilotGamepad.povRight()
-			.onTrue(new ElevatorMoveMidwayWithStallDetection(elevator));
+		copilotGamepad.povDown().onTrue(Commands.runOnce(() -> intake.moveDowntoPos()));
 
-		copilotGamepad.povUp()
-			.onTrue(new ElevatorMoveUpWithStallDetection(elevator));
+		copilotGamepad.back().onTrue(Commands.runOnce(() -> intake.stopEverything()));
 
+		copilotGamepad.button(5).onTrue(Commands.runOnce(() -> intake.moveUp()));
 
-		copilotGamepad.leftBumper()
-			.onTrue(new NeckSafeMoveUpWithStallDetection(neck, mouth, getCopilotGamepad()));
+		copilotGamepad.button(6).onTrue(Commands.runOnce(() -> intake.moveDown()));
 
-		copilotGamepad.rightBumper()
-			.onTrue(new NeckMoveDownWithStallDetection(neck));
+		copilotGamepad.button(3).onTrue(Commands.runOnce(() -> intake.grabNote()));
 
+		copilotGamepad.button(2).onTrue(Commands.runOnce(() -> intake.dropNote()));
 
-		copilotGamepad.leftStick()
-			.onTrue(new RollerTimedRoll(roller, 3));
-			//.onTrue(new GamepadRumble(getCopilotGamepad(),false));			
-
-		copilotGamepad.rightStick()
-			.onTrue(new RollerTimedRelease(roller, 3));
-			//.onTrue(new GamepadRumble(getCopilotGamepad(),false));
-
-
-		copilotGamepad.axisGreaterThan(LY,GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue(new ElevatorGamepadControl(elevator, getCopilotGamepad()));
-
-		copilotGamepad.axisLessThan(LY,-GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue(new ElevatorGamepadControl(elevator, getCopilotGamepad()));
-
-		/*copilotGamepad.axisGreaterThan(LX,GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue();
-
-		copilotGamepad.axisLessThan(LX,-GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue();*/
-
-		copilotGamepad.axisGreaterThan(RY,GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue(new NeckGamepadControl(neck, getCopilotGamepad()));
-
-		copilotGamepad.axisLessThan(RY,-GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue(new NeckGamepadControl(neck, getCopilotGamepad()));
-
-		copilotGamepad.axisGreaterThan(RX,GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue(new DrawerGamepadControl(drawer, getCopilotGamepad()));
-
-		copilotGamepad.axisLessThan(RX,-GAMEPAD_AXIS_THRESHOLD)
-			.whileTrue(new DrawerGamepadControl(drawer, getCopilotGamepad()));	
-			
+		copilotGamepad.button(4).onTrue(Commands.runOnce(() -> intake.resetArmEncoder()));
 	}
 
 	/**
@@ -444,6 +351,7 @@ public class RobotContainer {
 	 * @return the command to run in autonomous
 	 */
 	public Command getAutonomousCommand() {
+
 		autonSelected = autonChooser.getSelected();
 		System.out.println("Auton selected: " + autonSelected);	
 
@@ -493,20 +401,18 @@ public class RobotContainer {
 				//break;
 
 			case AUTON_TEST_HARDCODED_MOVE_1:
-				return new CompletelyLeaveCommunity(drivetrain, this);
+				return new PathPlannerAuto("New Path");	
+				// return new CompletelyLeaveCommunity(drivetrain, this);
 				//break;
 
 			case AUTON_TEST_HARDCODED_MOVE_2:
-				return new MoveInNonBumpKTurn(drivetrain, this);
-				//break;
-
-			case AUTON_CUSTOM:
-				return new CustomAuton(gamePieceSelected, startPosition, mainTarget, cameraOption, sonarOption, autonOption,
-					drivetrain, this, elevator, drawer, roller, neck, mouth);
+				return new PathPlannerAuto("straight");	
+				// return new MoveInNonBumpKTurn(drivetrain, this);
 				//break;
 
 			case AUTON_DO_NOTHING:
-				return null;
+				return new PathPlannerAuto("Do Nothing");	
+				// return null;
 				//break;
 				
 			default:
@@ -591,32 +497,7 @@ public class RobotContainer {
 		return drivetrain;
 	}
 
-	public Elevator getElevator()
-	{
-		return elevator;
-	}
-
-	public Drawer getDrawer()
-	{
-		return drawer;
-	}
-
-	public Neck getNeck()
-	{
-		return neck;
-	}
-
-	public Roller getRoller()
-	{
-		return roller;
-	}
-
-	public Mouth getMouth()
-	{
-		return mouth;
-	}
-
-	public Joystick getMainJoystick()
+	public XboxController getMainJoystick()
 	{
 		return joyMain.getHID();
 	}

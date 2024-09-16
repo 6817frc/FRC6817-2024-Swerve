@@ -13,16 +13,15 @@ import frc.robot.auton.AutonConstants;
 import frc.robot.RobotContainer;
 import frc.robot.subsystems.*;
 import frc.robot.commands.drivetrain.*;
-import frc.robot.commands.roller.*;
 
 
 public class PickupCube extends ParallelCommandGroup{
     
-    public PickupCube(SwerveDrivetrain drivetrain, RobotContainer container, Neck neck, Roller roller) {
+    public PickupCube(SwerveDrivetrain drivetrain, RobotContainer container) {
 
         addCommands(
 
-            new RollerTimedRoll(roller, .5),
+            // new RollerTimedRoll(roller, .5),
 
             new DrivetrainSwerveRelative(drivetrain, container, createAreaBeforeCubePickupTrajectory(container))        
         );

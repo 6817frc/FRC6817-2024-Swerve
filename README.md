@@ -17,4 +17,5 @@ The drivetrain is composed of four MK4i Swerve Modules, each configured with two
 ## Vendor Library Links for 2024
 * https://software-metadata.revrobotics.com/REVLib-2024.json
 * https://maven.ctr-electronics.com/release/com/ctre/phoenix6/latest/Phoenix6-frc2024-latest.json
+* https://maven.ctr-electronics.com/release/com/ctre/phoenix/Phoenix5-frc2024-latest.json
 * https://dev.studica.com/releases/2024/NavX.json
