@@ -169,64 +169,17 @@ public class Ports {
 		 * USB ports
 		 */
 		public static class USB {
-			public static final int RIGHT_JOYSTICK = 0;
-			public static final int LEFT_JOYSTICK = 1;
+			// public static final int RIGHT_JOYSTICK = 0;
+			// public static final int LEFT_JOYSTICK = 1;
 			//public static final int DRIVER_GAMEPAD = 3;
-			public static final int COPILOT_GAMEPAD = 2;
-			public static final int MAIN_JOYSTICK = 4;
+			public static final int COPILOT_GAMEPAD = 1;
+			public static final int MAIN_JOYSTICK = 0;
 		}
 		
 		/**
 		 * PCM ports
 		 */
 		public static class PCM {
-			/* 2017 robot
-			public static final int INTAKE_IN = 0;
-			public static final int INTAKE_OUT = 1;
-			public static final int INTAKE_DOWN = 2;
-			public static final int INTAKE_UP = 3;
-			public static final int GEAR_IN = 5;
-			public static final int GEAR_OUT = 4;
-			public static final int BASIN_DOWN = 6;
-			public static final int BASIN_UP = 7;*/
-			
-			// 2019 robot
-			/*public static final int KICKER_OUT = 0;
-			public static final int KICKER_IN = 1;		
-			public static final int SUCKER_EXHALE = 2;
-			public static final int SUCKER_INHALE= 3;
-			public static final int EJECTOR_RETRACTED = 5;
-			public static final int EJECTOR_EXTENDED = 4;			
-			public static final int HOOK_UP = 7;
-			public static final int HOOK_DOWN = 6;*/
-
-			// 2020 robot
-			/*public static final int GEAR_HIGH = 0;
-			public static final int GEAR_LOW = 1;
-			public static final int WINCH_STOPPER_STOPPED = 3;
-			public static final int WINCH_STOPPER_FREE = 2; 
-			public static final int WINCH_LOCK_LOCKED = 4;
-			public static final int WINCH_LOCK_UNLOCKED = 5; 
-			public static final int PUSHER_UP = 7; // cannot be used at same time as spinner raiser
-			public static final int PUSHER_DOWN = 6;
-			public static final int SPINNER_RAISER_UP = 7;
-			public static final int SPINNER_RAISER_DOWN = 6;*/
-
-			// 2022 robot
-			/*public static final int GEAR_HIGH = 0;
-			public static final int GEAR_LOW = 1;
-			public static final int FRONT_ELBOWS_OPEN = 2;
-			public static final int FRONT_ELBOWS_CLOSED = 3;
-			public static final int REAR_ELBOWS_OPEN = 4;
-			public static final int REAR_ELBOWS_CLOSED = 5;*/
-
-			// 2023 robot
-			/*public static final int GEAR_HIGH = 1;
-			public static final int GEAR_LOW = 0;
-			public static final int CLAW_CLOSED = 3;
-			public static final int CLAW_OPEN = 2;
-			public static final int BRAKE_ENGAGED = 5;
-			public static final int BRAKE_RELEASED = 4;*/
 
 			//2023 Off-season
 			public static final int MOUTH_CLOSED = 0;
@@ -236,9 +189,9 @@ public class Ports {
 		/**
 		 * PWM ports
 		 */
-		// public static class PWM {
-		// 	public static final int LED_STRIP = 9;
-		// }
+		 public static class PWM {
+		 	public static final int LED_STRIP = 9;
+		 }
 
 		/**
 		 * USB cameras

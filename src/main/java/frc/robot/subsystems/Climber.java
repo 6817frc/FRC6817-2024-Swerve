@@ -12,6 +12,7 @@ import com.revrobotics.SparkPIDController;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Ports;
 
 public class Climber extends SubsystemBase {
   public final CANSparkMax m_climbFront;
@@ -27,8 +28,8 @@ public class Climber extends SubsystemBase {
 
   /** Creates a new Climber. */
   public Climber() {
-    m_climbFront = new CANSparkMax(11, MotorType.kBrushless);
-    m_climbBack = new CANSparkMax(12, MotorType.kBrushless);
+    m_climbFront = new CANSparkMax(Ports.CAN.ClimbFront, MotorType.kBrushless);
+    m_climbBack = new CANSparkMax(Ports.CAN.ClimbBack, MotorType.kBrushless);
     m_climbFront.setIdleMode(IdleMode.kBrake);
     m_climbBack.setIdleMode(IdleMode.kBrake);
     frontClimbPID = m_climbFront.getPIDController();

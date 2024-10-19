@@ -12,6 +12,8 @@ import edu.wpi.first.math.MathUtil;
 //import edu.wpi.first.math.geometry.Translation2d;
 //import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.trajectory.TrajectoryConfig;
+import edu.wpi.first.wpilibj.AddressableLED;
+import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 //import edu.wpi.first.math.trajectory.TrajectoryGenerator;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.XboxController;
@@ -154,6 +156,8 @@ public class RobotContainer {
 	private final SwerveDrivetrain drivetrain = new SwerveDrivetrain();
 	public final Climber climber = new Climber();
 	public final Intake intake = new Intake();
+	public final AddressableLED LED_Strip = new AddressableLED(Ports.PWM.LED_STRIP);
+	public final AddressableLEDBuffer LED_StripBuffer = new AddressableLEDBuffer(8);
 	public double speedMult = 1;
 
 	// misc
@@ -243,6 +247,10 @@ public class RobotContainer {
 
 		// Configure default commands
 
+		LED_Strip.setLength(LED_StripBuffer.getLength());
+		LED_Strip.setData(LED_StripBuffer);
+		LED_Strip.start();
+
 		// intake.setDefaultCommand(new RunCommand(() -> intake.moveDowntoPos()));
 		drivetrain.setDefaultCommand(
 			// The left stick controls translation of the robot.
@@ -281,6 +289,19 @@ public class RobotContainer {
 
 	public void toggleRelative(){
 		fieldRelative = !fieldRelative;
+		if (fieldRelative) {
+			for(var i = 0; i < LED_StripBuffer.getLength(); i++) {
+				LED_StripBuffer.setRGB(i, 255, 0, 100);
+			}
+
+			LED_Strip.setData(LED_StripBuffer);
+		} else {
+			for(var i = 0; i < LED_StripBuffer.getLength(); i++) {
+				LED_StripBuffer.setRGB(i, 0, 0, 0);
+			}
+
+			LED_Strip.setData(LED_StripBuffer);
+		}
 	}
 
 	private void configureButtonBindings() {
@@ -310,21 +331,21 @@ public class RobotContainer {
 
 		/*------------------ JoyMain ------------------*/
 
-		joyMain.button(6).onTrue(Commands.runOnce(() -> toggleSpeed()));
+		joyMain.button(6).onTrue(Commands.runOnce(() -> toggleSpeed())); //button:RB
 
 		joyMain.start().onTrue(Commands.runOnce(() -> toggleRelative()));
 
-		joyMain.button(5).onTrue(Commands.runOnce(() -> climber.moveUp()));
+		joyMain.button(5).onTrue(Commands.runOnce(() -> climber.moveUp())); //button:LB
 
-		joyMain.povUp().onTrue(Commands.runOnce(() -> climber.moveUptoPos()));
+		joyMain.povUp().onTrue(Commands.runOnce(() -> climber.moveUptoPos())); 
 
 		joyMain.povDown().onTrue(Commands.runOnce(() -> climber.moveDown()));
 
-		joyMain.button(1).onTrue(Commands.runOnce(() -> climber.resetClimbEncoder()));
+		joyMain.button(1).onTrue(Commands.runOnce(() -> climber.resetClimbEncoder())); //button:a
 
-		joyMain.button(2).onTrue(Commands.runOnce(() -> climber.stopClimb()));
+		joyMain.button(2).onTrue(Commands.runOnce(() -> climber.stopClimb())); //button:b
 
-		joyMain.button(4).onTrue(new DrivetrainZeroHeading(drivetrain));	
+		joyMain.button(4).onTrue(new DrivetrainZeroHeading(drivetrain));	//button:y
 
 		/*------------------ Copilot ------------------*/
 
@@ -334,15 +355,15 @@ public class RobotContainer {
 
 		copilotGamepad.back().onTrue(Commands.runOnce(() -> intake.stopEverything()));
 
-		copilotGamepad.button(5).onTrue(Commands.runOnce(() -> intake.moveUp()));
+		copilotGamepad.button(5).onTrue(Commands.runOnce(() -> intake.moveUp())); //button:LB
 
-		copilotGamepad.button(6).onTrue(Commands.runOnce(() -> intake.moveDown()));
+		copilotGamepad.button(6).onTrue(Commands.runOnce(() -> intake.moveDown())); //button:RB
 
-		copilotGamepad.button(3).onTrue(Commands.runOnce(() -> intake.grabNote()));
+		copilotGamepad.button(3).onTrue(Commands.runOnce(() -> intake.grabNote())); //button:x
 
-		copilotGamepad.button(2).onTrue(Commands.runOnce(() -> intake.dropNote()));
+		copilotGamepad.button(2).onTrue(Commands.runOnce(() -> intake.dropNote())); //button:b
 
-		copilotGamepad.button(4).onTrue(Commands.runOnce(() -> intake.resetArmEncoder()));
+		copilotGamepad.button(4).onTrue(Commands.runOnce(() -> intake.resetArmEncoder())); //button:y
 	}
 
 	/**

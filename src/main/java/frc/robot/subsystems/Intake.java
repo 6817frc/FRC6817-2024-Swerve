@@ -13,6 +13,7 @@ import com.revrobotics.SparkRelativeEncoder;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Ports;
 
 public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
@@ -24,8 +25,8 @@ public class Intake extends SubsystemBase {
   private double realMotorPos;
 
   public Intake() {
-    m_intakeWheels = new CANSparkMax(9, MotorType.kBrushless);
-    m_intakeArm = new CANSparkMax(10, MotorType.kBrushed);
+    m_intakeWheels = new CANSparkMax(Ports.CAN.Intake, MotorType.kBrushless);
+    m_intakeArm = new CANSparkMax(Ports.CAN.Arm, MotorType.kBrushed);
     m_intakeArm.setInverted(true);
     m_intakeWheels.setIdleMode(IdleMode.kBrake);
     m_intakeArm.setIdleMode(IdleMode.kBrake);
