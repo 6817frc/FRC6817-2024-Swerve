@@ -39,14 +39,13 @@ public class Robot extends TimedRobot {
 		PortForwarder.add(5804, "limelight.local", 5804);
 		PortForwarder.add(5805, "limelight.local", 5805);
 
-		// Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-		// autonomous chooser on the dashboard.
+		// Instantiate our RobotContainer. This will perform all our button bindings, and put our autonomous chooser on the dashboard.
 		m_robotContainer = new RobotContainer();
 
 		SmartDashboard.putData("Swerve Odometry", m_robotContainer.getField());		
 	}
 
-	/**
+	/*
 	 * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
 	 * that you want ran during disabled, autonomous, teleoperated and test.
 	 *
@@ -77,13 +76,6 @@ public class Robot extends TimedRobot {
 	public void autonomousInit() {
 		m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
-		/*
-		 * String autoSelected = SmartDashboard.getString("Auto Selector",
-		 * "Default"); switch(autoSelected) { case "My Auto": autonomousCommand
-		 * = new MyAutoCommand(); break; case "Default Auto": default:
-		 * autonomousCommand = new ExampleCommand(); break; }
-		 */
-
 		// schedule the autonomous command (example)
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.schedule();
@@ -99,10 +91,8 @@ public class Robot extends TimedRobot {
 
 	@Override
 	public void teleopInit() {
-		// This makes sure that the autonomous stops running when
-		// teleop starts running. If you want the autonomous to
-		// continue until interrupted by another command, remove
-		// this line or comment it out.
+		/* This makes sure that the autonomous stops running when teleop starts running. 
+			If you want the autonomous to continue until interrupted by another command, remove this line or comment it out. */
 		if (m_autonomousCommand != null) {
 			m_autonomousCommand.cancel();
 		}
@@ -154,26 +144,8 @@ public class Robot extends TimedRobot {
 		m_robotContainer.getField().setRobotPose(m_robotContainer.getDrivetrain().getPose());
 		SmartDashboard.putNumber(   "Heading",             m_robotContainer.getDrivetrain().getHeading());
 
-
-		// SmartDashboard.putNumber("AccelZ", m_robotContainer.getAccelerometer().getAccelZ());
-		// SmartDashboard.putNumber("FilteredAccelZ", m_robotContainer.getAccelerometer().getFilteredAccelZ());
-		// SmartDashboard.putNumber("Tilt", m_robotContainer.getAccelerometer().getTilt());
-		// SmartDashboard.putNumber("FilteredTilt", m_robotContainer.getAccelerometer().getFilteredTilt());
-		// SmartDashboard.putNumber("AccurateTilt", m_robotContainer.getAccelerometer().getAccurateTilt());
-		// SmartDashboard.putBoolean("isFlat", m_robotContainer.getAccelerometer().isFlat());
-		// SmartDashboard.putBoolean("isSuperFlat", m_robotContainer.getAccelerometer().isSuperFlat());
-		// SmartDashboard.putNumber("AccuratePitch", m_robotContainer.getAccelerometer().getAccuratePitch());
-		// SmartDashboard.putNumber("AccurateRoll", m_robotContainer.getAccelerometer().getAccurateRoll());
-		// SmartDashboard.putNumber("FilteredAccurateRoll", m_robotContainer.getAccelerometer().getFilteredAccurateRoll());
-
-		SmartDashboard.putString("Auton selected", m_robotContainer.getAutonChooser().getSelected());	
-		// SmartDashboard.putString("Game piece", m_robotContainer.getGamePieceChooser().getSelected());
+		SmartDashboard.putString("Auton selected", m_robotContainer.getAutonChooser().getSelected());
 		SmartDashboard.putString("Start position", m_robotContainer.getStartPositionChooser().getSelected());
-		// SmartDashboard.putString("Main target", m_robotContainer.getMainTargetChooser().getSelected());
-		// SmartDashboard.putString("Camera option", m_robotContainer.getCameraOptionChooser().getSelected());
-		// SmartDashboard.putString("Sonar option", m_robotContainer.getSonarOptionChooser().getSelected());
-		// SmartDashboard.putString("Release chosen", m_robotContainer.getReleaseChooser().getSelected());
-		SmartDashboard.putString("Auton option", m_robotContainer.getAutonOptionChooser().getSelected());
 
 		// SmartDashboard.putNumber("SetPoint", rotations);
     	SmartDashboard.putNumber("ArmEncoderPos", m_robotContainer.intake.armEncoder.getPosition());
@@ -183,7 +155,6 @@ public class Robot extends TimedRobot {
 		SmartDashboard.putNumber("P", m_robotContainer.intake.armPID.getP());
 		SmartDashboard.putNumber("I", m_robotContainer.intake.armPID.getI());
 		SmartDashboard.putNumber("D", m_robotContainer.intake.armPID.getD());
-		// SmartDashboard.putNumber("LeadClimbMotor", m_robotContainer.climber.ClimbEncoder.getPosition());
 
 
 	} 

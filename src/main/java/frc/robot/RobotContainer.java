@@ -82,24 +82,10 @@ public class RobotContainer {
 	// choosers (for auton)
 	
 	public static final String AUTON_DO_NOTHING = "Do Nothing";
-	public static final String AUTON_CUSTOM = "My Auto";
-	public static final String AUTON_SAMPLE_SWERVE = "Sample Swerve";
-	public static final String AUTON_SAMPLE_MOVE_FORWARD = "Sample Move Forward";
-	public static final String AUTON_SAMPLE_MOVE_IN_REVERSE = "Sample Move In Reverse";
-	public static final String AUTON_SAMPLE_MOVE_IN_GAMMA_SHAPE = "Sample Move In Gamma Shape";
-	public static final String AUTON_SAMPLE_MOVE_IN_L_SHAPE_IN_REVERSE = "Sample Move In L Shape In Reverse";
-	public static final String AUTON_TEST_HARDCODED_MOVE_1 = "Test Hardcoded Move 1";
-	public static final String AUTON_TEST_HARDCODED_MOVE_2 = "Test Hardcoded Move 2";
+	public static final String AUTON_STRAIGHT_FORWARD = "Move Straight Forward";
+	public static final String AUTON_NEW_PATH = "New Path";
 	private String autonSelected;
 	private SendableChooser<String> autonChooser = new SendableChooser<>();
-
-	public static final String GAME_PIECE_NONE = "None";
-	public static final String GAME_PIECE_1_CONE = "1 Cone";
-	public static final String GAME_PIECE_2_CONES = "2 Cones";
-	public static final String GAME_PIECE_1_CUBE = "1 Cube";
-	public static final String GAME_PIECE_2_CUBES = "2 Cubes";
-	private String gamePieceSelected;
-	private SendableChooser<String> gamePieceChooser = new SendableChooser<>();
 	
 	public static final String START_POSITION_1 = "Starting Position 1";
 	public static final String START_POSITION_2 = "Starting Position 2";
@@ -118,34 +104,6 @@ public class RobotContainer {
 	public static final String MAIN_TARGET_NOWHERE = "Nowhere";
 	private String mainTarget;
 	private SendableChooser<String> mainTargetChooser = new SendableChooser<>();
-	
-	public static final String CAMERA_OPTION_USE_ALWAYS = "Always";
-	public static final String CAMERA_OPTION_USE_OPEN_LOOP_ONLY = "Open Loop Only";
-	public static final String CAMERA_OPTION_USE_CLOSED_LOOP_ONLY = "Closed Loop Only";
-	public static final String CAMERA_OPTION_USE_NEVER = "Never";
-	private String cameraOption;
-	private SendableChooser<String> cameraOptionChooser = new SendableChooser<>();
-	
-	public static final String SONAR_OPTION_USE_ALWAYS = "Always";
-	public static final String SONAR_OPTION_USE_RELEASE_ONLY = "Release Only";
-	public static final String SONAR_OPTION_USE_GRASP_ONLY = "Grasp Only";
-	public static final String SONAR_OPTION_USE_NEVER = "Never";
-	private String sonarOption;
-	private SendableChooser<String> sonarOptionChooser = new SendableChooser<>();
-	
-	public static final String CLAW_OPTION_RELEASE = "Release";
-	public static final String CLAW_OPTION_DONT_RELEASE = "Don't Release"; 
-	private String releaseSelected;
-	private SendableChooser<String> releaseChooser = new SendableChooser<>();
-
-	public static final String AUTON_OPTION_JUST_DROP_CONE = "Just Drop Cone";
-	public static final String AUTON_OPTION_JUST_DROP_CUBE = "Just Drop Cube";
-	public static final String AUTON_OPTION_ALSO_DOCK = "Also Dock";
-	public static final String AUTON_OPTION_LEAVE_COMMUNITY = "Leave Community";
-	public static final String AUTON_OPTION_ALSO_PICKUP_CONE = "Also Pickup Cone";
-	public static final String AUTON_OPTION_ALSO_PICKUP_CUBE = "Also Pickup Cube";
-	private String autonOption;
-	private SendableChooser<String> autonOptionChooser = new SendableChooser<>();
 
 	// sensors
 
@@ -181,22 +139,9 @@ public class RobotContainer {
 		// choosers (for auton)
 		
 		autonChooser.setDefaultOption("Do Nothing", AUTON_DO_NOTHING);
-		autonChooser.addOption("My Auto", AUTON_CUSTOM);
-		autonChooser.addOption("Sample Swerve", AUTON_SAMPLE_SWERVE);
-		autonChooser.addOption("Sample Move Forward", AUTON_SAMPLE_MOVE_FORWARD);
-		autonChooser.addOption("Sample Move In Reverse", AUTON_SAMPLE_MOVE_IN_REVERSE);
-		autonChooser.addOption("Sample Move In Gamma Shape", AUTON_SAMPLE_MOVE_IN_GAMMA_SHAPE);
-		autonChooser.addOption("Sample Move In L Shape In Reverse", AUTON_SAMPLE_MOVE_IN_L_SHAPE_IN_REVERSE);
-		autonChooser.addOption("Test Hardcoded Move 1", AUTON_TEST_HARDCODED_MOVE_1);
-		autonChooser.addOption("Test Hardcoded Move 2", AUTON_TEST_HARDCODED_MOVE_2);
+		autonChooser.addOption("Move Straight Forward", AUTON_STRAIGHT_FORWARD);
+		autonChooser.addOption("New Path", AUTON_NEW_PATH);
 		SmartDashboard.putData("Auto choices", autonChooser);
-
-		gamePieceChooser.setDefaultOption("None", GAME_PIECE_NONE);
-		gamePieceChooser.addOption("1 Cone", GAME_PIECE_1_CONE);
-		gamePieceChooser.addOption("2 Cones", GAME_PIECE_2_CONES);
-		gamePieceChooser.addOption("1 Cube", GAME_PIECE_1_CUBE);
-		gamePieceChooser.addOption("2 Cubes", GAME_PIECE_2_CUBES);
-		SmartDashboard.putData("Game piece choices", gamePieceChooser);
 
 		startPositionChooser.setDefaultOption("Starting Position 1", START_POSITION_1);
 		startPositionChooser.addOption("Starting Position 2", START_POSITION_2);
@@ -213,32 +158,7 @@ public class RobotContainer {
 		mainTargetChooser.addOption("Two Cube Nodes", MAIN_TARGET_TWO_CUBE_NODES);
 		mainTargetChooser.addOption("Charging Station", MAIN_TARGET_CHARGING_STATION);
 		SmartDashboard.putData("Main targets", mainTargetChooser);
-		
-		cameraOptionChooser.setDefaultOption("Always", CAMERA_OPTION_USE_ALWAYS);
-		cameraOptionChooser.addOption("Open Loop Only", CAMERA_OPTION_USE_OPEN_LOOP_ONLY);
-		cameraOptionChooser.addOption("Closed Loop Only", CAMERA_OPTION_USE_CLOSED_LOOP_ONLY);
-		cameraOptionChooser.addOption("Never", CAMERA_OPTION_USE_NEVER);		
-		SmartDashboard.putData("Camera options", cameraOptionChooser);
-		
-		sonarOptionChooser.setDefaultOption("Always", SONAR_OPTION_USE_ALWAYS);
-		sonarOptionChooser.addOption("Release Only", SONAR_OPTION_USE_RELEASE_ONLY);
-		sonarOptionChooser.addOption("Grasp Only", SONAR_OPTION_USE_GRASP_ONLY);		
-		sonarOptionChooser.addOption("Never", SONAR_OPTION_USE_NEVER);
-		SmartDashboard.putData("Sonar options", sonarOptionChooser);
-		
-		releaseChooser.setDefaultOption("Release", CLAW_OPTION_RELEASE);
-		releaseChooser.addOption("Don't release", CLAW_OPTION_DONT_RELEASE);
-		SmartDashboard.putData("Release options", releaseChooser);
 
-		autonOptionChooser.setDefaultOption("Just Drop Cone", AUTON_OPTION_JUST_DROP_CONE);
-		autonOptionChooser.setDefaultOption("Just Drop Cube", AUTON_OPTION_JUST_DROP_CUBE);
-		autonOptionChooser.addOption("Also Dock", AUTON_OPTION_ALSO_DOCK);
-		autonOptionChooser.addOption("Leave Community", AUTON_OPTION_LEAVE_COMMUNITY);
-		autonOptionChooser.addOption("Also Pickup Cone", AUTON_OPTION_ALSO_PICKUP_CONE);
-		autonOptionChooser.addOption("Also Pickup Cube", AUTON_OPTION_ALSO_PICKUP_CUBE);
-	
-		SmartDashboard.putData("Auton options", autonOptionChooser);
-		
 
 		// Configure the button bindings
 
@@ -306,29 +226,6 @@ public class RobotContainer {
 
 	private void configureButtonBindings() {
 
-		/*------------------  old functions used with controller:	------------------*/
-
-		// copilotGamepad.back().onTrue(new DrivetrainAndGyroReset(drivetrain));
-
-		// joyMain.povDown()
-		// 	.onTrue(new DrivetrainOppositeHeading(drivetrain));	
-
-		// joyMain.button(2)
-		// 	.whileTrue(new DrivetrainSetXFormation(drivetrain));	
-
-		// (new MoveInLShapeInReverse(drivetrain, this, 3)); Original button 3
-
-		// .onTrue(new MoveInGammaShape(drivetrain, this, 3));
-
-		// .onTrue(new MoveForward(drivetrain, this, 3));
-		//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, -90));
-		//.onTrue(new MoveInUShapeInReverse(drivetrain, this, 1));
-
-		// .onTrue(new MoveInReverse(drivetrain, this, 3));
-		//.onTrue(new DrivetrainTurnAngleUsingPidController(drivetrain, 90));
-
-		//.whileTrue(new DrivetrainSetXFormation(drivetrain));
-
 		/*------------------ JoyMain ------------------*/
 
 		joyMain.button(6).onTrue(Commands.runOnce(() -> toggleSpeed())); //button:RB
@@ -374,10 +271,7 @@ public class RobotContainer {
 	public Command getAutonomousCommand() {
 
 		autonSelected = autonChooser.getSelected();
-		System.out.println("Auton selected: " + autonSelected);	
-
-		gamePieceSelected = gamePieceChooser.getSelected();
-		System.out.println("Game piece selected: " + gamePieceSelected);		
+		System.out.println("Auton selected: " + autonSelected);		
 
 		startPosition = startPositionChooser.getSelected();
 		System.out.println("Start position: " + startPosition);
@@ -385,55 +279,20 @@ public class RobotContainer {
 		mainTarget = mainTargetChooser.getSelected();
 		System.out.println("Main target: " + mainTarget);
 		
-		cameraOption = cameraOptionChooser.getSelected();
-		System.out.println("Camera option: " + cameraOption);
-		
-		sonarOption = sonarOptionChooser.getSelected();
-		System.out.println("Sonar option: " + sonarOption);
-		
-		releaseSelected = releaseChooser.getSelected();
-		System.out.println("Release chosen: " + releaseSelected);
-
-		autonOption = autonOptionChooser.getSelected();
-		System.out.println("Auton option: " + autonOption);
-		
+		// This switch connects the paths in pathplanner to the autonomous options
 
 		switch (autonSelected) {
-			case AUTON_SAMPLE_SWERVE:
-				//return createSwerveControllerCommand(createExampleTrajectory());
-				//return new DrivetrainSwerveRelative(drivetrain, this, createExampleTrajectory());
-				return new MoveInSShape(drivetrain, this, 3);
-				//break;
 
-			case AUTON_SAMPLE_MOVE_FORWARD:
-				return new MoveForward(drivetrain, this, 3);
-				//break;
-
-			case AUTON_SAMPLE_MOVE_IN_REVERSE:
-				return new MoveInReverse(drivetrain, this, 3);
-				//break;
-
-			case AUTON_SAMPLE_MOVE_IN_GAMMA_SHAPE:
-				return new MoveInGammaShape(drivetrain, this, 3);
-				//break;
-
-			case AUTON_SAMPLE_MOVE_IN_L_SHAPE_IN_REVERSE:
-				return new MoveInLShapeInReverse(drivetrain, this, 3);
-				//break;
-
-			case AUTON_TEST_HARDCODED_MOVE_1:
+			case AUTON_NEW_PATH:
 				return new PathPlannerAuto("New Path");	
-				// return new CompletelyLeaveCommunity(drivetrain, this);
 				//break;
 
-			case AUTON_TEST_HARDCODED_MOVE_2:
+			case AUTON_STRAIGHT_FORWARD:
 				return new PathPlannerAuto("straight");	
-				// return new MoveInNonBumpKTurn(drivetrain, this);
 				//break;
 
 			case AUTON_DO_NOTHING:
 				return new PathPlannerAuto("Do Nothing");	
-				// return null;
 				//break;
 				
 			default:
@@ -532,11 +391,6 @@ public class RobotContainer {
 	{
 		return autonChooser;
 	}
-	
-	public SendableChooser<String> getGamePieceChooser()
-	{
-		return gamePieceChooser;
-	}
 
 	public SendableChooser<String> getStartPositionChooser()
 	{
@@ -546,25 +400,5 @@ public class RobotContainer {
 	public SendableChooser<String> getMainTargetChooser()
 	{
 		return mainTargetChooser;
-	}
-
-	public SendableChooser<String> getCameraOptionChooser()
-	{
-		return cameraOptionChooser;
-	}
-
-	public SendableChooser<String> getSonarOptionChooser()
-	{
-		return sonarOptionChooser;
-	}
-
-	public SendableChooser<String> getReleaseChooser()
-	{
-		return releaseChooser;
-	}
-
-	public SendableChooser<String> getAutonOptionChooser()
-	{
-		return autonOptionChooser;
 	}
 }
